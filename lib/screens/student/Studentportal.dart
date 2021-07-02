@@ -23,7 +23,15 @@ class Studentportal extends StatefulWidget {
 }
 
 class _StudentportalState extends State<Studentportal> {
-  
+
+  List<DocumentSnapshot> doc;
+  Future getdata() async {
+    final QuerySnapshot result =
+        await Firestore.instance.collection('users').getDocuments();
+    doc = result.documents;
+    return doc;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +49,15 @@ class _StudentportalState extends State<Studentportal> {
         centerTitle: true,
         elevation: 10,
       ),
-      body: SingleChildScrollView(
+
+     /*  body: FutureBuilder<dynamic>(
+        future: getdata(), // async work
+        builder: /* (BuildContext context, AsyncSnapshot<String> snapshot) {
+          return Text('shkjsh');
+        }, */
+      ), */
+      /* SingleChildScrollView(
+
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
@@ -62,36 +78,38 @@ class _StudentportalState extends State<Studentportal> {
                         indicatorColor: Colors.orange[300],
                         indicatorBackgroundColor: Colors.white,
                         children: [
-                          ClipRect(
+
+                          /*   ClipRect(
                             child: Image.asset(
-                            'assets/tcs.png',
-                            fit: BoxFit.fitHeight,
-                           ), 
-                          ),
-                         ClipRect(
-                            child: Image.asset(
-                            'assets/mg.png',
-                            fit: BoxFit.fitHeight,
-                           ), 
+                              'assets/tcs.png',
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                           ClipRect(
                             child: Image.asset(
-                            'assets/ril.png',
-                            fit: BoxFit.fitHeight,
-                           ), 
+                              'assets/mg.png',
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                           ClipRect(
                             child: Image.asset(
-                            'assets/lnt.png',
-                            fit: BoxFit.fitHeight,
-                           ), 
+                              'assets/ril.png',
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                           ClipRect(
                             child: Image.asset(
-                            'assets/worley.png',
-                            fit: BoxFit.fitHeight,
-                           ), 
+                              'assets/lnt.png',
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
+                          ClipRect(
+                            child: Image.asset(
+                              'assets/worley.png',
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ), */
+
                         ],
                         autoPlayInterval: 3000,
                       ),
@@ -104,11 +122,13 @@ class _StudentportalState extends State<Studentportal> {
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
-                    gradient: FlutterGradients.leCocktail(),//flyingLemon(),
+
+                    gradient: FlutterGradients.leCocktail(), //flyingLemon(),
                   ),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.90,
-                    height: MediaQuery.of(context).size.width * 0.15, 
+                    height: MediaQuery.of(context).size.width * 0.15,
+
                     child: Text(
                       "\t\t\t\t\t\t \t\tRecent Posts",
                       style: TextStyle(
@@ -126,138 +146,143 @@ class _StudentportalState extends State<Studentportal> {
                   children: <Widget>[
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            //ui of post
-            ListTile(
-              title: Container(
-              width: MediaQuery.of(context).size.width*0.90,
-              height:MediaQuery.of(context).size.width*0.50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                image: DecorationImage(
-                  fit: BoxFit.fitWidth,
-                  image: AssetImage("assets/tcs.png"),
-                ),
-              ),
-            ),
-            subtitle: ExpansionTile(
-              expandedAlignment: Alignment.center,
-              //backgroundColor: Colors.amber,
-              title: Text(
-                'Tata Consultancy Services',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 25.0,  
-                ),
-              ),
-              subtitle: Text(
-                "Mon 10 Jun 2021",
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 15.0,  
-                ),
-              ),
 
-              children: <Widget>[
-                Text(
-                  'TCS and its 67 subsidiaries provide a wide range of information technology-related products and services including application development, business process outsourcing, capacity planning, consulting, enterprise software, hardware sizing, payment processing, software management, and technology education services.',
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 30.0),
-                  child:Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                  "Branch:  Information Technology, Computer Engineering",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-                  ),
-                  
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 25.0),
-                  child:Align(
-                    alignment: Alignment.topLeft,
-                    child:Text(
-                  "Students who can apply:  Semester 5,6",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                   ), 
-                 ),
-                  ),
-                ), 
-                Padding(
-                  padding: EdgeInsets.only(top: 25.0),
-                  child:Align(
-                    alignment: Alignment.topLeft,
-                  child:Text(
-                  "Role(s) on offer: Software developer, Quality Assurance",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                   ), 
-                 ),
-                )
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 25.0),
-                  child:Align(
-                    alignment: Alignment.topLeft,
-                  child:Text(
-                  "Salary Packages for respective role(s) : 4LPA, 3LPA",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                   ), 
-                 ),
-                )),
-                Padding(
-                  padding: EdgeInsets.only(top: 25.0),
-                  child:Align(
-                    alignment: Alignment.topLeft,
-                  child:Text(
-                  "Criteria: Only the students above 7.0 CPI should apply\nNo backlogs or Remedials",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                   ), 
-                 ),
-                )),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal:20.0),
-                  child:RaisedButton(
-                  onPressed: (){
-                    Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Interested()),
-              );
-                  },
-                  color: Colors.yellow,
-                  child: Text(
-                    "Interested",
-                    style: TextStyle(
-                      fontSize: 25.0,
-                      color: Colors.black,
+                      children: <Widget>[
+                        //ui of post
+
+                        /* ListTile(
+                          title: Container(
+                            width: MediaQuery.of(context).size.width * 0.90,
+                            height: MediaQuery.of(context).size.width * 0.50,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0)),
+                              image: DecorationImage(
+                                fit: BoxFit.fitWidth,
+                                image: AssetImage("assets/tcs.png"),
+                              ),
+                            ),
+                          ),
+                          subtitle: ExpansionTile(
+                            expandedAlignment: Alignment.center,
+                            //backgroundColor: Colors.amber,
+                            title: Text(
+                              'Tata Consultancy Services',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 25.0,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "Mon 10 Jun 2021",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 15.0,
+                              ),
+                            ),
+
+                            children: <Widget>[
+                              Text(
+                                'TCS and its 67 subsidiaries provide a wide range of information technology-related products and services including application development, business process outsourcing, capacity planning, consulting, enterprise software, hardware sizing, payment processing, software management, and technology education services.',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 30.0),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Branch:  Information Technology, Computer Engineering",
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 25.0),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Students who can apply:  Semester 5,6",
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 25.0),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Role(s) on offer: Software developer, Quality Assurance",
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 25.0),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Salary Packages for respective role(s) : 4LPA, 3LPA",
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )),
+                              Padding(
+                                  padding: EdgeInsets.only(top: 25.0),
+                                  child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      "Criteria: Only the students above 7.0 CPI should apply\nNo backlogs or Remedials",
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 20.0),
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Interested()),
+                                    );
+                                  },
+                                  color: Colors.yellow,
+                                  child: Text(
+                                    "Interested",
+                                    style: TextStyle(
+                                      fontSize: 25.0,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ), */
+                      ],
                     ),
-                  ),
-                 ),
-                ),
-              ],
-            ),
-            ),     
-          ],
-        ),
+
                   ],
                 ),
               ),
             ],
           ),
         ),
-      ),
+
     );
   }
 }

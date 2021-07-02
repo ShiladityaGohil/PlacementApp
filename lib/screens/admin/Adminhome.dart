@@ -27,6 +27,7 @@ class _AdminhomeState extends State<Adminhome> {
   _AdminhomeState(this.user);
   final db = Firestore.instance;
   Future<DocumentSnapshot> document;
+
   Future<void> getdata() async {
     document = Firestore.instance.collection('users').document(user.uid).get();
     document.then<dynamic>((DocumentSnapshot snapshot) async {
@@ -166,8 +167,11 @@ class _AdminhomeState extends State<Adminhome> {
       body: PageView(
         controller: _pageController,
         children: <Widget>[
-          AdminPortal(),
-          Adminprofile(),
+
+          AdminPortal(user:user),
+          Adminprofile(user:user),
+
+
         ],
         onPageChanged: (pageIndex) {
           setState(() {

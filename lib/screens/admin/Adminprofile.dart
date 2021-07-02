@@ -577,7 +577,9 @@ Future<DocumentSnapshot> document;*/
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              Studenthome()));
+
+                                                              Studenthome(user:user)));
+
                                                 },
                                                 color: Colors.blue,
                                                 splashColor: Colors.amber,
@@ -607,6 +609,7 @@ Future<DocumentSnapshot> document;*/
                                                 MainAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
+
                                               RaisedButton(
                                                 onPressed: () {
                                                   Navigator.push(

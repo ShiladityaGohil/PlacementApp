@@ -127,6 +127,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     actions: <Widget>[
+
                       FlatButton(
                         onPressed: () {
                           Navigator.of(context).pop(true);
@@ -139,6 +140,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
+
                       FlatButton(
                         onPressed: () {
                           Navigator.of(context).pop(false);

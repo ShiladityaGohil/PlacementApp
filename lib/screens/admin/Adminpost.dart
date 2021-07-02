@@ -501,6 +501,10 @@ class _AdminPostState extends State<AdminPost> {
  */
 import 'dart:collection';
 import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -514,14 +518,65 @@ class AdminPost extends StatefulWidget {
 }
 
 class _AdminPostState extends State<AdminPost> {
+
+  final db = Firestore.instance;
+
   int i;
   Map<String, String> bl = HashMap<String, String>();
   Map<String, String> sl = HashMap<String, String>();
   TextEditingController cn = TextEditingController();
+
+  TextEditingController cd = TextEditingController();
+  String sem, branch;
+
   TextEditingController packc = TextEditingController();
   TextEditingController rolec = TextEditingController();
   int tap = 0;
   File _image1;
+
+  String url1;
+
+  Future<String> uploadImage() async {
+    final StorageReference postImageRef = FirebaseStorage.instance
+        .ref()
+        .child('gs://placementapp-b2e98.appspot.com');
+
+    var timeKey = new DateTime.now();
+
+    final StorageUploadTask uploadTask =
+        postImageRef.child(timeKey.toString() + ".jpg").putFile(_image1);
+
+    // ignore: non_constant_identifier_names
+    var ImageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    url1 = ImageUrl.toString();
+    uploaddata();
+  }
+
+ 
+
+  uploaddata() async {
+    Map<String, dynamic> data = HashMap<String, dynamic>();
+    List<String> slist = List<String>();
+    List<String> blist = List<String>();
+    data['cname'] = cn.text;
+    data['cdetails'] = cd.text;
+    for (String key in sl.keys) {
+      slist.add(sl[key]);
+    }
+    for (String key in bl.keys) {
+      blist.add(bl[key]);
+    }
+    data['sem'] = slist;
+    data['branch'] = blist;
+    data['rolepack'] = rolepackage;
+    data['cimage'] = url1;
+    print('------------------');
+    print(url1);
+    print('------------------');
+
+    db.collection('admin').add(data);
+  }
+
 
   List<Map<String, double>> rolepackage = List<HashMap<String, double>>();
 
@@ -883,11 +938,14 @@ class _AdminPostState extends State<AdminPost> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     child: TextFormField(
+
+                      controller: cn,
                       cursorColor: Colors.white,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+
                       decoration: new InputDecoration(
                         labelText: "Enter Company Name",
                         fillColor: Colors.white,
@@ -912,11 +970,14 @@ class _AdminPostState extends State<AdminPost> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     child: TextFormField(
+
+                      controller: cd,
                       cursorColor: Colors.white,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+
                       decoration: new InputDecoration(
                         labelText: "Company Details",
                         fillColor: Colors.white,
@@ -1054,6 +1115,7 @@ class _AdminPostState extends State<AdminPost> {
                                                   }
                                                 },
                                               ),
+
                                               RaisedButton(
                                                   child: Text('SUBMIT'),
                                                   onPressed: () {
@@ -1086,10 +1148,12 @@ class _AdminPostState extends State<AdminPost> {
                         EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     child: TextFormField(
                       cursorColor: Colors.white,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
+
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+
                       decoration: new InputDecoration(
                         labelText: "Enter Criteria",
                         fillColor: Colors.white,
@@ -1110,27 +1174,31 @@ class _AdminPostState extends State<AdminPost> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal:15.0, vertical:15.0),
+
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
                     child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.50,
-                    child: RaisedButton(
-                      onPressed: () {},
-                      color: Colors.blue,
-                      child: Text(
-                        "POST",
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          color: Colors.white,
+                      width: MediaQuery.of(context).size.width * 0.50,
+                      child: RaisedButton(
+                        onPressed: () {
+                          uploadImage();
+                        },
+                        color: Colors.blue,
+                        child: Text(
+                          "POST",
+                          style: TextStyle(
+                            fontSize: 25.0,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                   )
-                  
+
                 ],
               ),
             ),
           ),
         ));
   }
-}
+
